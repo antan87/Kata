@@ -40,6 +40,7 @@ namespace kata {
             list.Sort ();
             list.Add (CalculateZ (list[cursor]));
             list.Sort ();
+
             cursor++;
             n--;
             return Iterate (list, cursor, n);
