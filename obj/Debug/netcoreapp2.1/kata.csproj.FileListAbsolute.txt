@@ -1,0 +1,14 @@
+C:\Users\Antan87\source\repos\c#\kata\bin\Debug\netcoreapp2.1\kata.deps.json
+C:\Users\Antan87\source\repos\c#\kata\bin\Debug\netcoreapp2.1\kata.runtimeconfig.json
+C:\Users\Antan87\source\repos\c#\kata\bin\Debug\netcoreapp2.1\kata.runtimeconfig.dev.json
+C:\Users\Antan87\source\repos\c#\kata\bin\Debug\netcoreapp2.1\kata.dll
+C:\Users\Antan87\source\repos\c#\kata\bin\Debug\netcoreapp2.1\kata.pdb
+C:\Users\Antan87\source\repos\c#\kata\obj\Debug\netcoreapp2.1\kata.csprojAssemblyReference.cache
+C:\Users\Antan87\source\repos\c#\kata\obj\Debug\netcoreapp2.1\kata.csproj.CoreCompileInputs.cache
+C:\Users\Antan87\source\repos\c#\kata\obj\Debug\netcoreapp2.1\kata.AssemblyInfoInputs.cache
+C:\Users\Antan87\source\repos\c#\kata\obj\Debug\netcoreapp2.1\kata.AssemblyInfo.cs
+C:\Users\Antan87\source\repos\c#\kata\obj\Debug\netcoreapp2.1\kata.dll
+C:\Users\Antan87\source\repos\c#\kata\obj\Debug\netcoreapp2.1\kata.pdb
+C:\Users\Antan87\source\repos\C#\Kata\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.dll
+C:\Users\Antan87\source\repos\C#\Kata\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.pdb
+C:\Users\Antan87\source\repos\C#\Kata\bin\Debug\netcoreapp2.1\nunit.engine.netstandard.dll
