@@ -75,7 +75,7 @@ namespace kata {
         //     n--;
 
         //     cursor++;
-        //     return Iterate (list, cursor, n);
+        //     return Iterate (list, cursor, n);ss
         // }
 
         public static List<int> Iterate2 (List<int> list, int n) {
