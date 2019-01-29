@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using NUnit.Framework;
 namespace kata {
 
@@ -21,34 +22,41 @@ namespace kata {
                 if (array[x - 1] < array[x]) {
                     condtion = false;
                     Int64 temp = array[x];
-                    array[x] = array[x - 1];
-                    array[x - 1] = temp;
+                    Int64 temp2 = array[x - 1];
+                    Int64? ndd = array.ToList ().Where ((row, index) => index > x && row < temp && temp2 < row).FirstOrDefault ();
+                    if (ndd.HasValue) {
 
+                        array.ToList ().Where ((row, index) => index > x && row < temp && temp2 < row).FirstOrDefault ();
+
+                        array[x] = temp2;
+                        array[x - 1] = ndd.Value;
+                        var ss = array.ToList ();
+                        ss.Add (temp);
+                        array = ss.ToArray ();
+                    } else {
+
+                        array[x] = array[x - 1];
+                        array[x - 1] = temp;
+                    }
                 } else
                     x--;
                 if (x - 1 < 0)
                     condtion = false;
 
             }
+            if (x != 0) {
+                var firstArr = array.ToList ().Where ((item, ind) => ind < x).ToArray ();
+                var secondArr = array.ToList ().Where ((item, ind) => ind >= x).ToArray ();
+                Array.Sort (secondArr);
+                var nA = firstArr.Concat (secondArr);
 
-            condtion = x + 1 != array.Length;
-            while (condtion) {
-
-                if (array[x + 1] < array[x]) {
-                    Int64 temp = array[x];
-                    array.ToList ().ForEach (xc => Console.WriteLine ("X" + x + " Nr " + xc));
-                    array[x] = array[x + 1];
-                    array[x + 1] = temp;
-                }
-                x++;
-
-                if (x + 1 == array.Length)
-                    condtion = false;
+                string newNumber = string.Empty;
+                nA.ToList ().ForEach (xs => { newNumber += xs; });
+                var ss = Convert.ToInt64 (newNumber);
+                return ss == n ? -1 : ss;
             }
-            string newNumber = string.Empty;
-            array.ToList ().ForEach (xs => { newNumber += xs; });
-            var ss = Convert.ToInt64 (newNumber);
-            return ss == n ? -1 : ss;
+
+            return -1;
         }
     }
 
@@ -58,6 +66,12 @@ namespace kata {
         [TestCase (2071, 2017)]
         [TestCase (-1, 9999999999)]
         [TestCase (7012, 2710)]
+        [TestCase (414, 144)]
+        [TestCase (441, 414)]
+        [TestCase (123465, 123456)]
+        // [TestCase (1234567908, 1234567980)]
+        [TestCase (504465, 504546)]
+        [TestCase (504546, 504465)]
         public void NextBiggerNumber (long result, long n) => Assert.AreEqual (result, Kata5.NextBiggerNumber (n));
     }
 }
