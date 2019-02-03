@@ -8,55 +8,28 @@ namespace kata {
     public static class Kata5 {
 
         public static Int64 NextBiggerNumber (long n) {
-
-            List<Int64> list = new List<Int64> ();
-            foreach (var i in n.ToString ()) {
-                list.Add ((Int64) Char.GetNumericValue (i));
-            }
-            Int64[] array = list.ToArray ();
-
+            Int64[] array = n.ToString ().ToList ().Select (row => (Int64) Char.GetNumericValue (row)).ToArray ();
             int x = array.Length - 1;
             bool condtion = true;
             while (condtion) {
 
-                if (array[x - 1] < array[x]) {
+                long valueX = array[x];
+                long higherValue = array.Where ((item, index) => x < index && valueX < item).OrderBy (item => item).FirstOrDefault ();
+
+                if (higherValue != 0) {
+                    var index = Array.FindIndex (array, x + 1, row => row == higherValue);
+                    array[x] = array[index];
+                    array[index] = valueX;
+                    Array.Sort (array, x + 1, array.Length - (x + 1));
                     condtion = false;
-                    Int64 temp = array[x];
-                    Int64 temp2 = array[x - 1];
-                    Int64? ndd = array.ToList ().Where ((row, index) => index > x && row < temp && temp2 < row).FirstOrDefault ();
-                    if (ndd.HasValue) {
-
-                        array.ToList ().Where ((row, index) => index > x && row < temp && temp2 < row).FirstOrDefault ();
-
-                        array[x] = temp2;
-                        array[x - 1] = ndd.Value;
-                        var ss = array.ToList ();
-                        ss.Add (temp);
-                        array = ss.ToArray ();
-                    } else {
-
-                        array[x] = array[x - 1];
-                        array[x - 1] = temp;
-                    }
-                } else
+                } else {
                     x--;
-                if (x - 1 < 0)
-                    condtion = false;
-
+                    if (x < 0)
+                        condtion = false;
+                }
             }
-            if (x != 0) {
-                var firstArr = array.ToList ().Where ((item, ind) => ind < x).ToArray ();
-                var secondArr = array.ToList ().Where ((item, ind) => ind >= x).ToArray ();
-                Array.Sort (secondArr);
-                var nA = firstArr.Concat (secondArr);
-
-                string newNumber = string.Empty;
-                nA.ToList ().ForEach (xs => { newNumber += xs; });
-                var ss = Convert.ToInt64 (newNumber);
-                return ss == n ? -1 : ss;
-            }
-
-            return -1;
+            long newNumber = Convert.ToInt64 (string.Join ("", array.Select (row => Convert.ToString (row))));
+            return newNumber == n ? -1 : newNumber;
         }
     }
 
@@ -69,8 +42,7 @@ namespace kata {
         [TestCase (414, 144)]
         [TestCase (441, 414)]
         [TestCase (123465, 123456)]
-        // [TestCase (1234567908, 1234567980)]
-        [TestCase (504465, 504546)]
+        [TestCase (1234567980, 1234567908)]
         [TestCase (504546, 504465)]
         public void NextBiggerNumber (long result, long n) => Assert.AreEqual (result, Kata5.NextBiggerNumber (n));
     }
