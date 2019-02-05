@@ -38,13 +38,21 @@ namespace kata {
                 seconds -= timeDuration;
                 count++;
             }
+            string textResult = string.Empty;
+            if (count != 0)
+                textResult = $"{count} {txt}";
 
-            return (durationTxt: count == 0 ? string.Empty : ($"{count} {txt}"), remaningSeconds : seconds);
+            if (count > 1)
+                textResult += "s";
+
+            return (durationTxt: textResult, remaningSeconds: seconds);
         }
         public static string FormatDuration (int seconds) {
+            if (seconds == 0)
+                return "now";
 
             List<string> results = new List<string> ();
-            Dictionary<string, int> durations = new Dictionary<string, int> { { "year", 31556926 },
+            Dictionary<string, int> durations = new Dictionary<string, int> { { "year", 31536000 },
                 { "day", 86400 },
                 { "hour", 3600 },
                 { "minute", 60 },
@@ -63,7 +71,7 @@ namespace kata {
             results.Remove (lastItem);
 
             if (results.Count () > 0) {
-                lastItem = $" and {lastItem}s";
+                lastItem = $" and {lastItem}";
             }
 
             return string.Join (", ", results) + lastItem;
