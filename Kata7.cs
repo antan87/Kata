@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Linq;
 // Write a method that takes a field for well-known board game "Battleship" as an argument and returns true if it has a valid disposition of ships, false otherwise. Argument is guaranteed to be 10*10 two-dimension array. Elements in the array are numbers, 0 if the cell is free and 1 if occupied by ship.
 
@@ -19,28 +20,36 @@ namespace kata {
 
     public class BattleshipField {
         public static bool ValidateBattlefield (int[, ] field) {
-            // Write your magic here
+
+            List<Block> blocks = new List<Block> ();
+            for (int x = 0; x < field.GetLength (0); x++)
+                for (int y = 0; y < field.GetLength (1); y++)
+                    blocks.Add (new Block (field[x, y], x, y));
+
             return true;
         }
     }
 
-    public sealed class BattleshipPart {
+    public sealed class Block {
 
-        public int X { get; }
-        public int Y { get; }
-        public BattleshipPart (int x, int y) {
+        public Block (int value, int x, int y) {
             this.X = x;
             this.Y = y;
         }
+
+        public int Value { get; }
+        public int X { get; }
+        public int Y { get; }
+
     }
 
     [TestFixture]
     public sealed class Tests7 {
 
         [TestCaseSource ("TestCaseSourceData")]
-        public void FormatDuration (bool result, int[, ] array) => Assert.AreEqual (result, Kata7.ValidateBattlefield (array));
+        public void FormatDuration (bool result, int[, ] array) => Assert.AreEqual (result, BattleshipField.ValidateBattlefield (array));
 
-        public IEnumerable<TestCaseData> TestCaseSourceData () {
+        public static IEnumerable<TestCaseData> TestCaseSourceData () {
             yield return new TestCaseData (true, new int[10, 10] { { 1, 0, 0, 0, 0, 1, 1, 0, 0, 0 }, { 1, 0, 1, 0, 0, 0, 0, 0, 1, 0 }, { 1, 0, 1, 0, 1, 1, 1, 0, 1, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, 0, 0, 1, 1, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
             });
         }
