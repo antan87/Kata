@@ -1,3 +1,4 @@
+using System.Linq;
 // Write a method that takes a field for well-known board game "Battleship" as an argument and returns true if it has a valid disposition of ships, false otherwise. Argument is guaranteed to be 10*10 two-dimension array. Elements in the array are numbers, 0 if the cell is free and 1 if occupied by ship.
 
 // Battleship (also Battleships or Sea Battle) is a guessing game for two players. Each player has a 10x10 grid containing several "ships" and objective is to destroy enemy's forces by targetting individual cells on his field. The ship occupies one or more cells in the grid. Size and number of ships may differ from version to version. In this kata we will use Soviet/Russian version of the game.
@@ -10,10 +11,39 @@
 
 // This is all you need to solve this kata. If you're interested in more information about the game, visit this link https://en.wikipedia.org/wiki/Battleship_(game).
 
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
+
 namespace kata {
 
-    public sealed class Kata7 {
-
+    public class BattleshipField {
+        public static bool ValidateBattlefield (int[, ] field) {
+            // Write your magic here
+            return true;
+        }
     }
 
+    public sealed class BattleshipPart {
+
+        public int X { get; }
+        public int Y { get; }
+        public BattleshipPart (int x, int y) {
+            this.X = x;
+            this.Y = y;
+        }
+    }
+
+    [TestFixture]
+    public sealed class Tests7 {
+
+        [TestCaseSource ("TestCaseSourceData")]
+        public void FormatDuration (bool result, int[, ] array) => Assert.AreEqual (result, Kata7.ValidateBattlefield (array));
+
+        public IEnumerable<TestCaseData> TestCaseSourceData () {
+            yield return new TestCaseData (true, new int[10, 10] { { 1, 0, 0, 0, 0, 1, 1, 0, 0, 0 }, { 1, 0, 1, 0, 0, 0, 0, 0, 1, 0 }, { 1, 0, 1, 0, 1, 1, 1, 0, 1, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, 0, 0, 1, 1, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+            });
+        }
+
+    }
 }
