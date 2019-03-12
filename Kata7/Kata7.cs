@@ -10,45 +10,42 @@
 
 // This is all you need to solve this kata. If you're interested in more information about the game, visit this link https://en.wikipedia.org/wiki/Battleship_(game).
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
-namespace kata {
-    public class BattleshipField {
+
+namespace Kata7 {
+    public static class Kata7 {
         public static bool ValidateBattlefield (int[, ] field) {
 
-            List<Block> blocks = new List<Block> ();
-            for (int x = 0; x < field.GetLength (0); x++)
-                for (int y = 0; y < field.GetLength (1); y++)
-                    blocks.Add (new Block (field[x, y], x, y));
+            List < (int size, int count) > rules = new List < (int size, int count) > {
+                (size: 4, count: 1),
+                (size: 3, count: 2),
+                (size: 2, count: 3),
+                (size: 1, count: 4)
+            };
 
+            List<Block> blocks = new List<Block> ();
+            for (int y = 0; y < field.GetLength (0); y++)
+                for (int x = 0; x < field.GetLength (1); x++)
+                    blocks.Add (new Block (field[y, x], x, y));
+
+            // Console.WriteLine (string.Join (Environment.NewLine, blocks.Select (row => $"X: {row.X} - Y: {row.Y} - Value:{row.Value}")));
             return true;
         }
-    }
 
-    public sealed class Block {
+        private static (bool isValid, List<Block> blocks) Validate ((int size, int count) rule, List<Block> blocks) {
 
-        public Block (int value, int x, int y) {
-            this.X = x;
-            this.Y = y;
+            return (isValid: true, blocks = new List<Block> ());
         }
 
-        public int Value { get; }
-        public int X { get; }
-        public int Y { get; }
+        public static bool IsInvalidBlock (Block block, List<Block> blocks) => Rules.Any (rule => rule (block, blocks));
+        private static List<Func<Block, List<Block>, bool>> Rules =>
+            new List<Func<Block, List<Block>, bool>> {
+                (block, blocks) => blocks.Any (row => row.Value == 1 && ((block.X - 1 == row.X || block.X + 1 == row.X) && (block.Y - 1 == row.Y || block.Y + 1 == row.Y))),
+                (block, blocks) => blocks.Any (row => row.Value == 1 && ((block.X - 1 == row.X || block.X + 1 == row.X) && blocks.Any (yRow => yRow.X == block.X && (block.Y - 1 == yRow.Y || block.Y + 1 == yRow.Y)))),
 
-    }
-
-    [TestFixture]
-    public sealed class Tests7 {
-
-        [TestCaseSource ("TestCaseSourceData")]
-        public void FormatDuration (bool result, int[, ] array) => Assert.AreEqual (result, BattleshipField.ValidateBattlefield (array));
-
-        public static IEnumerable<TestCaseData> TestCaseSourceData () {
-            yield return new TestCaseData (true, new int[10, 10] { { 1, 0, 0, 0, 0, 1, 1, 0, 0, 0 }, { 1, 0, 1, 0, 0, 0, 0, 0, 1, 0 }, { 1, 0, 1, 0, 1, 1, 1, 0, 1, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, 0, 0, 1, 1, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-            });
-        }
+            };
 
     }
 }
